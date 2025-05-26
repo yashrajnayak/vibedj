@@ -1,71 +1,13 @@
 
-# VibeDJ 🎵
+# VibeDJ
 
 A modern, responsive web application that provides a sleek DJ interface for mixing two YouTube videos side by side. Built with vanilla HTML, CSS, and JavaScript - no frameworks required!
 
-![VibeDJ Interface](https://img.shields.io/badge/VibeDJ-YouTube%20Mixer-ff1493?style=for-the-badge&logo=youtube&logoColor=white)
+![image](https://github.com/user-attachments/assets/a6b22116-3aec-4ab0-a021-975d21e44bc3)
 
-## ✨ Features
+[![VibeDJ Interface](https://img.shields.io/badge/VibeDJ-YouTube%20Mixer-ff1493?style=for-the-badge&logo=youtube&logoColor=white)](https://yashrajnayak.dev/vibedj/)
 
-### 🎧 Dual Video Players
-- Side-by-side YouTube video embedding
-- Individual URL input fields with auto-conversion to embed format
-- Professional video player interface with custom controls
-
-### 🎛️ Advanced Controls
-- **Individual Controls**: Play/pause buttons and volume sliders for each video
-- **Crossfade Mixer**: Central crossfade slider for smooth audio transitions between videos
-- **Seeking**: Interactive progress bars with click/drag functionality
-- **Quick Navigation**: ±10 second skip buttons for precise control
-- **Time Display**: Current position and total duration for each track
-
-### 📱 Responsive Design
-- Fully responsive across desktop, tablet, and mobile devices
-- Touch-friendly controls optimized for mobile interaction
-- Adaptive layout that works seamlessly on all screen sizes
-
-### 🎨 Modern UI/UX
-- **Dark Theme**: Stunning gradient background (deep purple to dark blue)
-- **Neon Accents**: Pink and cyan highlights for buttons and controls
-- **Visual Effects**: Subtle glow effects and smooth transitions
-- **Hover Animations**: Enhanced interactive feedback
-- **Professional Typography**: Clean, modern font choices
-
-### 🔧 Technical Features
-- No API keys required - uses standard YouTube iframe embedding
-- YouTube postMessage API integration for player control
-- Vanilla JavaScript implementation (no frameworks)
-- Cross-browser compatibility
-- Optimized performance
-
-## 🚀 Getting Started
-
-### Prerequisites
-- A modern web browser with JavaScript enabled
-- Internet connection for YouTube video loading
-
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yashrajnayak/vibedj.git
-   cd vibedj
-   ```
-
-2. Open `index.html` in your web browser, or serve it using a local web server:
-   ```bash
-   # Using Python 3
-   python -m http.server 8000
-   
-   # Using Python 2
-   python -m SimpleHTTPServer 8000
-   
-   # Using Node.js (if you have http-server installed)
-   npx http-server
-   ```
-
-3. Navigate to `http://localhost:8000` in your browser
-
-## 📖 Usage Guide
+## Getting Started 🚀
 
 ### Loading Videos
 1. Paste any YouTube URL into either "Track A" or "Track B" input field
@@ -84,13 +26,41 @@ A modern, responsive web application that provides a sleek DJ interface for mixi
 3. Move right (B) to hear more of Track B
 4. Center position plays both tracks at equal volume
 
-### Mobile Usage
-- All controls are touch-optimized
-- Swipe and tap gestures work naturally
-- Progress bars support touch dragging
-- Responsive layout adapts to your screen
+## Features ✨
 
-## 📁 Project Structure
+### Dual Video Players
+- Side-by-side YouTube video embedding
+- Individual URL input fields with auto-conversion to embed format
+- Professional video player interface with custom controls
+
+### Controls
+- Play/pause buttons and volume sliders for each video
+- Central crossfade slider for smooth audio transitions between videos
+- Interactive progress bars with click/drag functionality
+- ±10 second skip buttons for precise control
+- Current position and total duration for each track
+
+### Modern UI/UX
+- Gradient background (deep purple to dark blue)
+- Hover Animations, subtle glow effects and smooth transitions
+- Adaptive layout that works seamlessly on all screen sizes
+
+### Technical Features
+- No API keys required - uses standard YouTube iframe embedding
+- Cross-browser compatibility
+- Automatic video ID extraction from various YouTube URL formats
+- Error handling for invalid URLs and failed video loads
+- Efficient DOM manipulation, throttled update loops, memory management for player instances and CSS animations using hardware acceleration
+
+### Supported YouTube URL Formats
+
+VibeDJ automatically extracts video IDs from various YouTube URL formats:
+- `https://www.youtube.com/watch?v=VIDEO_ID`
+- `https://youtu.be/VIDEO_ID`
+- `https://www.youtube.com/embed/VIDEO_ID`
+- `https://www.youtube.com/v/VIDEO_ID`
+
+## Project Structure 📁
 
 ```
 vibedj/
@@ -100,36 +70,7 @@ vibedj/
 └── README.md           # Project documentation
 ```
 
-## 🛠️ Technical Details
-
-### YouTube Integration
-- Uses YouTube Iframe API for video control
-- Automatic video ID extraction from various YouTube URL formats
-- Error handling for invalid URLs and failed video loads
-- No API key required - uses public iframe embedding
-
-### Browser Compatibility
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
-- Mobile browsers (iOS Safari, Chrome Mobile)
-
-### Performance Optimizations
-- Efficient DOM manipulation
-- Throttled update loops
-- Memory management for player instances
-- CSS animations using hardware acceleration
-
-## 🎯 Supported YouTube URL Formats
-
-VibeDJ automatically extracts video IDs from various YouTube URL formats:
-- `https://www.youtube.com/watch?v=VIDEO_ID`
-- `https://youtu.be/VIDEO_ID`
-- `https://www.youtube.com/embed/VIDEO_ID`
-- `https://www.youtube.com/v/VIDEO_ID`
-
-## 🤝 Contributing
+## Contributing 🤝
 
 We welcome contributions! Here's how you can help:
 
@@ -149,20 +90,6 @@ We welcome contributions! Here's how you can help:
 - Add comments for complex functionality
 - Update documentation as needed
 
-### Areas for Contribution
-- Additional video platform support
-- Enhanced audio effects
-- Playlist functionality
-- Keyboard shortcuts
-- Accessibility improvements
-- Performance optimizations
-
-## 📝 License
+## License 📝
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-**Made with ❤️ by Yashraj Nayak**
-
-*VibeDJ - Where YouTube videos meet professional DJ mixing*
