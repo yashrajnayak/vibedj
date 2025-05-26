@@ -12,6 +12,18 @@ class VibeDJ {
         this.updateInterval = null;
         this.playlist = [];
         this.loadedTracks = { 1: null, 2: null };
+        this.defaultTracks = [
+            {
+                url: 'https://www.youtube.com/watch?v=K4DyBUG242c',
+                videoId: 'K4DyBUG242c',
+                title: 'Default Track A'
+            },
+            {
+                url: 'https://www.youtube.com/watch?v=3nQNiWdeH2Q',
+                videoId: '3nQNiWdeH2Q',
+                title: 'Default Track B'
+            }
+        ];
         
         this.init();
     }
@@ -19,13 +31,75 @@ class VibeDJ {
     init() {
         this.setupEventListeners();
         this.loadYouTubeAPI();
+        // Fallback in case YouTube API doesn't load properly
+        setTimeout(() => {
+            if (this.playlist.length === 0) {
+                console.log('YouTube API may not have loaded properly, trying to initialize...');
+                this.onYouTubeAPIReady();
+            }
+        }, 3000);
     }
 
     loadYouTubeAPI() {
-        window.onYouTubeIframeAPIReady = () => {
-            console.log('YouTube API Ready');
-        };
+        // Check if YouTube API is already loaded
+        if (window.YT && window.YT.Player) {
+            console.log('YouTube API already loaded');
+            setTimeout(() => this.onYouTubeAPIReady(), 100);
+        } else {
+            // Set up callback for when API loads
+            window.onYouTubeIframeAPIReady = () => {
+                console.log('YouTube API Ready');
+                this.onYouTubeAPIReady();
+            };
+        }
     }
+
+    async onYouTubeAPIReady() {
+        console.log('Loading default tracks to playlist...');
+        
+        // Load default tracks into playlist first
+        for (const track of this.defaultTracks) {
+            try {
+                const title = await this.getVideoTitle(track.videoId);
+                const playlistItem = {
+                    id: Date.now() + Math.random(),
+                    videoId: track.videoId,
+                    title,
+                    url: track.url,
+                    thumbnail: `https://img.youtube.com/vi/${track.videoId}/mqdefault.jpg`
+                };
+                this.playlist.push(playlistItem);
+                console.log('Added default track to playlist:', title);
+            } catch (error) {
+                console.log('Could not load default track:', track.url, error);
+                // Add track with fallback title even if fetch fails
+                const playlistItem = {
+                    id: Date.now() + Math.random(),
+                    videoId: track.videoId,
+                    title: track.title,
+                    url: track.url,
+                    thumbnail: `https://img.youtube.com/vi/${track.videoId}/mqdefault.jpg`
+                };
+                this.playlist.push(playlistItem);
+                console.log('Added default track with fallback title:', track.title);
+            }
+        }
+        
+        console.log('Rendering playlist with', this.playlist.length, 'tracks');
+        this.renderPlaylist();
+        
+        // Auto-load tracks to players
+        if (this.playlist.length >= 2) {
+            console.log('Auto-loading tracks to players...');
+            setTimeout(() => {
+                this.loadToPlayer(1, this.playlist[0].videoId, this.playlist[0].title);
+            }, 500);
+            setTimeout(() => {
+                this.loadToPlayer(2, this.playlist[1].videoId, this.playlist[1].title);
+            }, 1000);
+        }
+    }
+
 
     setupEventListeners() {
         // Playlist functionality
@@ -223,7 +297,12 @@ class VibeDJ {
         // Update duration display
         document.getElementById(`duration${playerNum}`).textContent = this.formatTime(this.playerStates[playerNum].duration);
         
-        // Set initial volume based on crossfade
+        // Set both players to 100% volume initially (before crossfade calculation)
+        const volumeSlider = document.getElementById(`volume${playerNum}`);
+        volumeSlider.value = 100;
+        document.getElementById(`volumeValue${playerNum}`).textContent = '100%';
+        
+        // Apply crossfade calculation (this will set the actual YouTube player volume)
         this.updateCrossfade(document.getElementById('crossfade').value);
     }
 
@@ -272,8 +351,10 @@ class VibeDJ {
         let actualVolume = volume;
         
         if (playerNum === 1) {
-            actualVolume = volume * (1 - crossfadeValue / 100);
+            // Track A: full volume when crossfade is 0 (left), fade out as it goes to 100 (right)
+            actualVolume = volume * ((100 - crossfadeValue) / 100);
         } else {
+            // Track B: full volume when crossfade is 100 (right), fade out as it goes to 0 (left)
             actualVolume = volume * (crossfadeValue / 100);
         }
         
